@@ -1,0 +1,15 @@
+﻿@page
+@model LataPrzestepne2.Pages.HistoryModel
+@{
+	ViewData["Title"] = "Przestepny";
+}
+
+@if (Model.records != null)
+{
+	<ul class="list-group">
+		@foreach (var record in Model.records)
+		{
+			<li class="list-group-item">@record.ToString()</li>
+		}
+	</ul>
+}

@@ -1,0 +1,34 @@
+﻿@page
+@model IndexModel
+@{
+	ViewData["Title"] = "Przestepny";
+}
+
+
+<form method="post">
+	<div class="form-group">
+		<label asp-for="Form.Name"></label>
+		<input type="text" size="100" class="form-control extramargin" asp-for="Form.Name" /><br />
+	</div>
+	<div class="form-group">
+		<label asp-for="Form.Year"></label>
+		<input type="text" class="form-control extramargin" asp-for="Form.Year" required /><br />
+		<div class="invalid-feedback">To pole jest wymagane. Wprowadź rok z zakresu 1899 i 2022.</div>
+		<span asp-validation-for="Form.Year" class="text-danger validation"></span>
+	</div>
+	<div class="form-group">
+		<button id="btnSubmit" type="submit" class="btn btn-primary">Zatwierdź</button>
+	</div>
+</form>
+
+@if (Model.Form != null)
+{
+	@if (Model.Form.Year <= 2022 & Model.Form.Year >= 1899){
+		<p>
+			<div id="greenAlert" class="alert alert-success extramargin" role="alert">
+				@Model.Result
+			</div>
+		</p>
+	}
+	
+}

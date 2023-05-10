@@ -1,0 +1,15 @@
+﻿@page
+@model LataPrzestepne2.Pages.ZapisaneModel
+@{
+	ViewData["Title"] = "Przestepny";
+}
+
+@if (Model.people != null)
+{
+	<ul class="list-group">
+		@foreach (var person in Model.people)
+		{
+			<li class="list-group-item">@person.ToString()</li>
+		}
+	</ul>
+}
