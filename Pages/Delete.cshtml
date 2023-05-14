@@ -1,0 +1,66 @@
+﻿@page
+@model LataPrzestepne2.Pages.DeleteModel
+@{
+    ViewData["Title"] = "Usuwanie wpisu";
+}
+
+<h1>Usuwanie</h1>
+
+<h3>Czy na pewno chcesz usunąć ten wpis?</h3>
+<div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id wpisu
+                </th>
+                <th>
+                    Data utworzenia
+                </th>
+                <th>
+                    ID użytkownika
+                </th>
+                <th>
+                    Login użytkownika
+                </th>
+                <th>
+                    Rok
+                </th>
+                <th>
+                    Przestępność
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.recordToDelete.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.recordToDelete.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.recordToDelete.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.recordToDelete.UserLogin)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.recordToDelete.Year)
+                </td>
+                <td>
+                    @Model.recordToDelete.IsLeap_toString()
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+
+    <form method="post">
+        <input type="hidden" asp-for="recordToDelete.Id" />
+        <input type="submit" value="Usuń" class="btn btn-danger" /> |
+        <a asp-page="./History">Powrót do historii wyszukiwań</a>
+    </form>
+</div>

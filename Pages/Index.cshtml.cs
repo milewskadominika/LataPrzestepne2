@@ -3,10 +3,9 @@ using LataPrzestepne2.Forms;
 using LataPrzestepne2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Security.Claims;
-using System.Security.Principal;
+using System.Web;
 
 namespace LataPrzestepne2.Pages
 {
@@ -50,41 +49,39 @@ namespace LataPrzestepne2.Pages
                 if (Data != null)
                     people =
                     JsonConvert.DeserializeObject<List<Model>>(Data);
-                people.Add(recordCreation(prz));
+                people.Add(recordCreationModel());
                 HttpContext.Session.SetString("Data",
                 JsonConvert.SerializeObject(people));
 
-                _context.History.Add(recordCreation());
-
+                _context.History.Add(recordCreationHistory());
+                _context.SaveChanges();
                 return Page();
             }
         }
 
-        public Model recordCreation(bool p)
+        public Model recordCreationModel()
         {
             Model record = new Model()
             {
                 Name = Form.Name ?? "",
                 Year = Form.Year,
-                Przestepny = p
+                Przestepny = czyPrzestepny()
             };
 
             return record;
 
         }
 
-        public History recordCreation()
+        public History recordCreationHistory()
         {
             History record = new History(_context)
             {
                 CreatedDate = DateTime.Now,
-                UserId = "1",
-                UserLogin = "Dupa",
                 Year = Form.Year,
-                //UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value,
-                //UserLogin = User.FindFirst(ClaimTypes.Name).Value
+                UserLogin = HttpContext.User.Identity.Name ?? "",
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "",
+                IsLeap = czyPrzestepny()
             };
-            Console.WriteLine(record.ToString());
             return record;
         }
         

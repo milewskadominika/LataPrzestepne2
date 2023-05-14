@@ -1,15 +1,80 @@
 ﻿@page
 @model LataPrzestepne2.Pages.HistoryModel
 @{
-	ViewData["Title"] = "Przestepny";
+	ViewData["Title"] = "Historia wyszukiwań";
 }
 
-@if (Model.records != null)
-{
-	<ul class="list-group">
-		@foreach (var record in Model.records)
-		{
-			<li class="list-group-item">@record.ToString()</li>
-		}
-	</ul>
+@{
+
 }
+
+<h2>Historia wyszukiwań</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Data utworzenia
+            </th>
+            <th>
+                ID użytkownika
+            </th>
+            <th>
+                Login użytkownika
+            </th>
+            <th>
+                Rok
+            </th>
+            <th>
+                Przestępność
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.records)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserLogin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @item.IsLeap_toString()
+                </td>
+                <td>
+                    @if(Model.currentUser != null){
+                        @if(Model.currentUser == item.UserId){
+                            <a asp-page="./Delete" asp-route-id="@item.Id">Usuń</a>
+                            //<button class="btn btn-primary" id="delButton" onclick=@Model.OnPostAsync(item.Id)>Usuń</button>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@{
+    var prevDisabled = !Model.records.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.records.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./History"
+   asp-route-pageIndex="@(Model.records.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Poprzedni
+</a>
+<a asp-page="./History"
+   asp-route-pageIndex="@(Model.records.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Następny
+</a>

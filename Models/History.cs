@@ -25,26 +25,17 @@ namespace LataPrzestepne2.Models
 		public string? UserLogin { get; set; }
         public int Year { get; set; }
 
-        public override string ToString()
+        public string IsLeap_toString()
         {
-            string Result = "";
-            Result += CreatedDate;
-            Result += ", ";
-            Result += UserId ?? "";
-            Result += ", ";
-            Result += UserLogin ?? "";
-            Result += ", ";
-            Result += Year;
-            Result += " - ";
-            if (IsLeap == true)
+            if (IsLeap)
             {
-                Result += "przestępny";
+                return "tak";
             }
             else
             {
-                Result += "rok nieprzestępny";
+                return "nie";
             }
-            return Result;
         }
+
     }
 }
